@@ -22,6 +22,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener{
     }
 
     public void itemStateChanged(ItemEvent e) {
-        
+
     }
+
 }
