@@ -5,7 +5,14 @@ import java.awt.event.*;
 
 public class GUI extends JFrame implements ActionListener, ItemListener, KeyListener {
     private JPanel mainPanel;
+    private JPanel titlePanel;
+    private JPanel gamePanel;
+    private JPanel bottomPanel;
     private Grid grid;
+    private JButton startButton;
+    private GridLayout gridLayout;
+    private Player player1;
+    private Player player2;
 
     public GUI() {
         createUIComponents();
@@ -18,21 +25,36 @@ public class GUI extends JFrame implements ActionListener, ItemListener, KeyList
         setTitle("My GUI!");
         setSize(1500,950);
         setLocation(300,50);
-        getContentPane().setBackground(Color.cyan);
+        mainPanel.setBackground(Color.cyan);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //title panel setup
-        JPanel titlePanel = new JPanel();
-        JLabel gameTitle = new JLabel("Welcome to Connect 4!");
-        gameTitle.setFont(new Font("Serif", Font.PLAIN, 30));
+        titlePanel = new JPanel();
+        JLabel gameTitle = new JLabel("Welcome to Connect 4!", SwingConstants.CENTER); //title
+        gameTitle.setFont(new Font("Monospace", Font.BOLD, 75));
+
+        JLabel gameDescription = new JLabel("<html>Be the first player to form a horizontal, vertical, or diagonal line of four with your tokens. Have fun!</html>", SwingConstants.CENTER); //game description
+        gameDescription.setFont(new Font("Monospace", Font.ITALIC, 30));
+        gameDescription.setBorder(BorderFactory.createEmptyBorder(40, 15, 15, 15));
+
+        titlePanel.setBackground(Color.CYAN);
+
+        startButton = new JButton("Start"); //start button
+        startButton.setFont(new Font("Serif", Font.BOLD, 20));
+        startButton.setBackground(Color.yellow);
+
+        titlePanel.setLayout(new GridLayout(3, 1));
         titlePanel.add(gameTitle);
+        titlePanel.add(gameDescription);
+        titlePanel.add(startButton);
 
         //connect4 grid setup
         mainPanel.setLayout(new GridLayout(3, 1));
         mainPanel.add(titlePanel);
 
-        JPanel gamePanel = new JPanel();
-        gamePanel.setLayout(new GridLayout(6, 7, 10, 10));
+        gamePanel = new JPanel();
+        gridLayout = new GridLayout(6, 7, 10, 10);
+        gamePanel.setLayout(gridLayout);
         grid = new Grid();
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
@@ -41,21 +63,48 @@ public class GUI extends JFrame implements ActionListener, ItemListener, KeyList
         }
         mainPanel.add(gamePanel);
 
+        //bottom panel setup
+        bottomPanel = new JPanel();
+        ImageIcon redPiece = new ImageIcon("src/redpiece.png");
+        redPiece = new ImageIcon(redPiece.getImage().getScaledInstance(120, 120,  java.awt.Image.SCALE_SMOOTH));
+        ImageIcon bluePiece = new ImageIcon("src/bluepiece.png");
+        bluePiece = new ImageIcon(bluePiece.getImage().getScaledInstance(120, 120,  java.awt.Image.SCALE_SMOOTH));
+        JLabel redPieceArea = new JLabel("Player 1", redPiece, JLabel.LEFT);
+        JLabel bluePieceArea = new JLabel("Player 2", bluePiece, JLabel.RIGHT);
 
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.add(new JLabel(new ImageIcon("bluepiece.png")));
-        bottomPanel.add(new JLabel(new ImageIcon("redpiece.png")));
-
+        bottomPanel.add(redPieceArea);
+        bottomPanel.add(bluePieceArea);
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(40, 15, 15, 15));
         mainPanel.add(bottomPanel);
 
-
-
+        //pre-game setup
+        gamePanel.setVisible(false);
+        bottomPanel.setVisible(false);
         setVisible(true);
+
+        //action listener setup
+        setUpListeners();
+    }
+
+    public void startGame() {
+        titlePanel.setVisible(false);
+        gamePanel.setVisible(true);
+        bottomPanel.setVisible(true);
+    }
+
+    public void setUpListeners() {
+        startButton.addActionListener(this);
     }
 
 
-    public void actionPerformed(ActionEvent ae) {
+    public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
+        JButton clickedButton = (JButton) source;
+        String buttonText = clickedButton.getText();
 
+        if (buttonText.equals("Start")) {
+            startGame();
+        }
     }
 
     public void itemStateChanged(ItemEvent e) {

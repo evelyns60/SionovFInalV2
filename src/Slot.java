@@ -1,17 +1,21 @@
 import javax.swing.*;
 
 public class Slot extends JButton{
-    private String currentPlayer;
+    private Player currentPlayer;
 
-    public Slot(String currentPlayer) {
+    public Slot(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
     public Slot() {
-        this.currentPlayer = "none";
+        this.currentPlayer = null;
     }
 
-    public String getCurrentPlayer() {
+    public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 }
