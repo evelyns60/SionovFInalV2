@@ -2,8 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+
 public class GUI extends JFrame implements ActionListener, ItemListener, KeyListener {
     private JPanel mainPanel;
+    private Grid grid;
 
     public GUI() {
         createUIComponents();
@@ -19,31 +21,38 @@ public class GUI extends JFrame implements ActionListener, ItemListener, KeyList
         getContentPane().setBackground(Color.cyan);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //creates title panel
+        //title panel setup
         JPanel titlePanel = new JPanel();
         JLabel gameTitle = new JLabel("Welcome to Connect 4!");
+        gameTitle.setFont(new Font("Serif", Font.PLAIN, 30));
         titlePanel.add(gameTitle);
 
-        //creates connect4 grid
+        //connect4 grid setup
         mainPanel.setLayout(new GridLayout(3, 1));
         mainPanel.add(titlePanel);
 
         JPanel gamePanel = new JPanel();
         gamePanel.setLayout(new GridLayout(6, 7, 10, 10));
+        grid = new Grid();
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
-                JButton newButton = new JButton();
-                newButton.setBackground(Color.blue);
-                gamePanel.add(newButton);
+                gamePanel.add(grid.getMatrix()[i][j]);
             }
         }
-
         mainPanel.add(gamePanel);
+
+
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.add(new JLabel(new ImageIcon("bluepiece.png")));
+        bottomPanel.add(new JLabel(new ImageIcon("redpiece.png")));
+
+        mainPanel.add(bottomPanel);
 
 
 
         setVisible(true);
     }
+
 
     public void actionPerformed(ActionEvent ae) {
 
