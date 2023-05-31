@@ -33,10 +33,10 @@ public class GUI extends JFrame implements ActionListener, ItemListener, KeyList
 
         //title panel setup
         titlePanel = new JPanel();
-        JLabel gameTitle = new JLabel("Welcome to Connect 4!", SwingConstants.CENTER); //title
+        JLabel gameTitle = new JLabel("Welcome to Connect 5!", SwingConstants.CENTER); //title
         gameTitle.setFont(new Font("Monospace", Font.BOLD, 75));
 
-        JLabel gameDescription = new JLabel("<html>Be the first player to form a horizontal, vertical, or diagonal line of four with your tokens. Have fun!</html>", SwingConstants.CENTER); //game description
+        JLabel gameDescription = new JLabel("<html>Be the first player to form a horizontal, vertical, or diagonal line of five with your tokens. Have fun!</html>", SwingConstants.CENTER); //game description
         gameDescription.setFont(new Font("Monospace", Font.ITALIC, 30));
         gameDescription.setBorder(BorderFactory.createEmptyBorder(40, 15, 15, 15));
 
@@ -51,16 +51,16 @@ public class GUI extends JFrame implements ActionListener, ItemListener, KeyList
         titlePanel.add(gameDescription);
         titlePanel.add(startButton);
 
-        //connect4 grid setup
+        //connect5 grid setup
         mainPanel.setLayout(new GridLayout(3, 1));
         mainPanel.add(titlePanel);
 
         gamePanel = new JPanel();
-        gridLayout = new GridLayout(6, 7, 10, 10);
+        gridLayout = new GridLayout(7, 8, 10, 10);
         gamePanel.setLayout(gridLayout);
         grid = new Grid();
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 7; j++) {
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 8; j++) {
                 gamePanel.add(grid.getMatrix()[i][j]);
             }
         }
@@ -73,10 +73,11 @@ public class GUI extends JFrame implements ActionListener, ItemListener, KeyList
         redPiece = new ImageIcon(redPiece.getImage().getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH));
         ImageIcon bluePiece = new ImageIcon("src/bluepiece.png");
         bluePiece = new ImageIcon(bluePiece.getImage().getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH));
-        JLabel redPieceArea = new JLabel("Player 1 Score: " + player1.getNumWins(), redPiece, JLabel.LEFT);
-        JLabel bluePieceArea = new JLabel("Player 2 Score: " + player2.getNumWins(), bluePiece, JLabel.RIGHT);
+        JLabel redPieceArea = new JLabel("Player 1 Score: " + player1.getNumWins(), redPiece, JLabel.CENTER);
+        JLabel bluePieceArea = new JLabel("Player 2 Score: " + player2.getNumWins(), bluePiece, JLabel.CENTER);
         displayCurrentPlayer = new JLabel("Player 1's Turn!");
-        displayCurrentPlayer.setFont(new Font("Serif", Font.BOLD, 20));
+        displayCurrentPlayer.setFont(new Font("Serif", Font.BOLD, 30));
+        displayCurrentPlayer.setForeground(Color.RED);
 
         bottomPanel.add(redPieceArea);
         bottomPanel.add(bluePieceArea);
