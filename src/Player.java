@@ -11,5 +11,7 @@ public class Player {
         return name;
     }
 
-
+    public int getNumWins() {
+        return numWins;
+    }
 }

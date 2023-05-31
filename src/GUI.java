@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-
 public class GUI extends JFrame implements ActionListener, ItemListener, KeyListener {
     private JPanel mainPanel;
     private JPanel titlePanel;
@@ -13,8 +12,12 @@ public class GUI extends JFrame implements ActionListener, ItemListener, KeyList
     private GridLayout gridLayout;
     private Player player1;
     private Player player2;
+    private Player playerTurn;
+    private JLabel displayCurrentPlayer;
 
     public GUI() {
+        player1 = new Player("Player 1");
+        player2 = new Player("Player 2");
         createUIComponents();
     }
 
@@ -65,15 +68,19 @@ public class GUI extends JFrame implements ActionListener, ItemListener, KeyList
 
         //bottom panel setup
         bottomPanel = new JPanel();
+        bottomPanel.setLayout(new GridLayout(2, 2));
         ImageIcon redPiece = new ImageIcon("src/redpiece.png");
-        redPiece = new ImageIcon(redPiece.getImage().getScaledInstance(120, 120,  java.awt.Image.SCALE_SMOOTH));
+        redPiece = new ImageIcon(redPiece.getImage().getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH));
         ImageIcon bluePiece = new ImageIcon("src/bluepiece.png");
-        bluePiece = new ImageIcon(bluePiece.getImage().getScaledInstance(120, 120,  java.awt.Image.SCALE_SMOOTH));
-        JLabel redPieceArea = new JLabel("Player 1", redPiece, JLabel.LEFT);
-        JLabel bluePieceArea = new JLabel("Player 2", bluePiece, JLabel.RIGHT);
+        bluePiece = new ImageIcon(bluePiece.getImage().getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH));
+        JLabel redPieceArea = new JLabel("Player 1 Score: " + player1.getNumWins(), redPiece, JLabel.LEFT);
+        JLabel bluePieceArea = new JLabel("Player 2 Score: " + player2.getNumWins(), bluePiece, JLabel.RIGHT);
+        displayCurrentPlayer = new JLabel("Player 1's Turn!");
+        displayCurrentPlayer.setFont(new Font("Serif", Font.BOLD, 20));
 
         bottomPanel.add(redPieceArea);
         bottomPanel.add(bluePieceArea);
+        bottomPanel.add(displayCurrentPlayer);
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(40, 15, 15, 15));
         mainPanel.add(bottomPanel);
 
@@ -95,7 +102,6 @@ public class GUI extends JFrame implements ActionListener, ItemListener, KeyList
     public void setUpListeners() {
         startButton.addActionListener(this);
     }
-
 
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
