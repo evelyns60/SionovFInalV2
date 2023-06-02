@@ -1,21 +1,37 @@
 import javax.swing.*;
 
 public class Slot extends JButton{
-    private Player currentPlayer;
+    private int row;
+    private int col;
+    private Player playerOnSlot;
 
-    public Slot(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
+    /*
+    public Slot(Player currentPlayer, int row, int col) {
+        this.playerOnSlot = currentPlayer;
+        this.row = row;
+        this.col = col;
+    }
+    */
+
+    public Slot(int row, int col) {
+        this.row = row;
+        this.col = col;
+        this.playerOnSlot = null;
     }
 
-    public Slot() {
-        this.currentPlayer = null;
+    public Player getPlayerOnSlot() {
+        return playerOnSlot;
     }
 
-    public Player getCurrentPlayer() {
-        return currentPlayer;
+    public int getRow() {
+        return row;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
+    public int getCol() {
+        return col;
+    }
+
+    public void setPlayerOnSlot(Player newPlayer) {
+        this.playerOnSlot = newPlayer;
     }
 }

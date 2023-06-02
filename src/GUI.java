@@ -12,12 +12,14 @@ public class GUI extends JFrame implements ActionListener, ItemListener, KeyList
     private GridLayout gridLayout;
     private Player player1;
     private Player player2;
+    private Player currentPlayer;
     private Player playerTurn;
     private JLabel displayCurrentPlayer;
 
     public GUI() {
         player1 = new Player("Player 1");
         player2 = new Player("Player 2");
+        currentPlayer = player1;
         createUIComponents();
     }
 
@@ -62,6 +64,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener, KeyList
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 8; j++) {
                 gamePanel.add(grid.getMatrix()[i][j]);
+                grid.getMatrix()[i][j].addActionListener(this);
             }
         }
         mainPanel.add(gamePanel);
@@ -105,12 +108,31 @@ public class GUI extends JFrame implements ActionListener, ItemListener, KeyList
     }
 
     public void actionPerformed(ActionEvent e) {
-        Object source = e.getSource();
+        Object source = e.getSource();     //include if statement for instance of JButton if you use other actionEvents
         JButton clickedButton = (JButton) source;
         String buttonText = clickedButton.getText();
-
-        if (buttonText.equals("Start")) {
-            startGame();
+        if (source instanceof Slot) {
+            if (grid.isValidPlacement(((Slot) source))) {
+                ((Slot) source).setPlayerOnSlot(currentPlayer);
+                if (currentPlayer.getName().equals("Player 1")) {
+                    ((Slot) source).setBackground(Color.red);
+                    currentPlayer.setName("Player 2");
+                    displayCurrentPlayer.setText("Player 2's Turn!");
+                    displayCurrentPlayer.setForeground(Color.blue);
+                } else {
+                    ((Slot) source).setBackground(Color.blue);
+                    currentPlayer.setName("Player 1");
+                    displayCurrentPlayer.setText("Player 1's Turn!");
+                    displayCurrentPlayer.setForeground(Color.red);
+                }
+                if (grid.playerHasWon(player1) || grid.playerHasWon(player2)) { //debug tmw: returns true when theres five pieces in a row regardless of their color
+                    bottomPanel.setVisible(false);
+                }
+            }
+        } else {
+            if (buttonText.equals("Start")) {
+                startGame();
+            }
         }
     }
 

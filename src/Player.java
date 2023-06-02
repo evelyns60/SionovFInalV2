@@ -14,4 +14,8 @@ public class Player {
     public int getNumWins() {
         return numWins;
     }
+
+    public void setName(String newName) {
+        name = newName;
+    }
 }
