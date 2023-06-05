@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class GUI extends JFrame implements ActionListener, ItemListener, KeyListener {
+public class GUI extends JFrame implements ActionListener, ItemListener {
     private JPanel mainPanel;
     private JPanel titlePanel;
     private JPanel gamePanel;
@@ -15,6 +15,8 @@ public class GUI extends JFrame implements ActionListener, ItemListener, KeyList
     private Player currentPlayer;
     private Player playerTurn;
     private JLabel displayCurrentPlayer;
+    private JLabel redPieceArea;
+    private JLabel bluePieceArea;
 
     public GUI() {
         player1 = new Player("Player 1");
@@ -76,8 +78,8 @@ public class GUI extends JFrame implements ActionListener, ItemListener, KeyList
         redPiece = new ImageIcon(redPiece.getImage().getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH));
         ImageIcon bluePiece = new ImageIcon("src/bluepiece.png");
         bluePiece = new ImageIcon(bluePiece.getImage().getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH));
-        JLabel redPieceArea = new JLabel("Player 1 Score: " + player1.getNumWins(), redPiece, JLabel.CENTER);
-        JLabel bluePieceArea = new JLabel("Player 2 Score: " + player2.getNumWins(), bluePiece, JLabel.CENTER);
+        redPieceArea = new JLabel("Player 1 Score: " + player1.getNumWins(), redPiece, JLabel.CENTER);
+        bluePieceArea = new JLabel("Player 2 Score: " + player2.getNumWins(), bluePiece, JLabel.CENTER);
         displayCurrentPlayer = new JLabel("Player 1's Turn!");
         displayCurrentPlayer.setFont(new Font("Serif", Font.BOLD, 30));
         displayCurrentPlayer.setForeground(Color.RED);
@@ -126,7 +128,14 @@ public class GUI extends JFrame implements ActionListener, ItemListener, KeyList
                     displayCurrentPlayer.setForeground(Color.red);
                 }
                 if (grid.playerHasWon(player1) || grid.playerHasWon(player2)) { //debug tmw: returns true when theres five pieces in a row regardless of their color
-                    bottomPanel.setVisible(false);
+                    if (grid.playerHasWon(player1)) {
+                        player1.addWin();
+                        displayWins();
+                    } else if (grid.playerHasWon(player2)) {
+                        player2.addWin();
+                        displayWins();
+                    }
+                    grid.clearBoard();
                 }
             }
         } else {
@@ -140,15 +149,8 @@ public class GUI extends JFrame implements ActionListener, ItemListener, KeyList
 
     }
 
-    public void keyPressed(KeyEvent e) {
-
-    }
-
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    public void keyReleased(KeyEvent e) {
-
+    private void displayWins() {
+        redPieceArea.setText("Player 1 Score: " + player1.getNumWins());
+        bluePieceArea.setText("Player 2 Score: " + player2.getNumWins());
     }
 }

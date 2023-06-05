@@ -18,4 +18,8 @@ public class Player {
     public void setName(String newName) {
         name = newName;
     }
+
+    public void addWin() {
+        numWins++;
+    }
 }

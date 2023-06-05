@@ -19,7 +19,7 @@ public class Grid {
         return matrix;
     }
 
-    public int getNumBlankCells() {
+    public boolean isGridFilled() { //tmw: put this into actionlistener to check when the board is filled and restart game
         int count = 0;
         for (Slot[] row: matrix) {
             for (Slot slot: row) {
@@ -28,7 +28,11 @@ public class Grid {
                 }
             }
         }
-        return count;
+        if (count == 56) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean isValidPlacement(Slot slot) {
@@ -47,9 +51,10 @@ public class Grid {
     }
 
     public void clearBoard() {
-        for (Slot[] row: matrix) {
-            for (Slot slot: row) {
-                slot.setPlayerOnSlot(null);
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                matrix[i][j].setPlayerOnSlot(null);
+                matrix[i][j].setBackground(Color.yellow);
             }
         }
     }
@@ -113,7 +118,7 @@ public class Grid {
         return false;
     }
 
-    private void setPlayersTemporarily() {
+    private void setPlayersTemporarily() { //used to avoid null error
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
                 if (matrix[i][j].getPlayerOnSlot() == null) {
@@ -123,7 +128,7 @@ public class Grid {
         }
     }
 
-    private void reversePlayerSet() {
+    private void reversePlayerSet() { //reverses setPlayersTemporarily method to set the blank slots back to null values
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
                 if (matrix[i][j].getPlayerOnSlot().getName().equals("No Player")) {
