@@ -135,6 +135,11 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
                         player2.addWin();
                         displayWins();
                     }
+/*
+                    grid.clearBoard();
+*/
+                }
+                if (grid.isGridFilled()) { //restarts game if the board is filled; no points rewarded (NOTE: make bottom panel display text about this)
                     grid.clearBoard();
                 }
             }
