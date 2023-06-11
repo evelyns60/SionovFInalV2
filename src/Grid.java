@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Grid {
-    private Slot[][] matrix; //make this a matrix of circles
+    private Slot[][] matrix;
 
     public Grid() {
         matrix = new Slot[7][8];
@@ -19,7 +19,7 @@ public class Grid {
         return matrix;
     }
 
-    public boolean isGridFilled() { //tmw: put this into actionlistener to check when the board is filled and restart game
+    public boolean isGridFilled() {
         int count = 0;
         for (Slot[] row: matrix) {
             for (Slot slot: row) {
@@ -55,7 +55,6 @@ public class Grid {
             for (int j = 0; j < matrix[0].length; j++) {
                 matrix[i][j].setPlayerOnSlot(null);
                 matrix[i][j].setBackground(Color.yellow);
-                matrix[i][j].setText("");
             }
         }
     }
@@ -154,7 +153,4 @@ public class Grid {
             }
         }
     }
-
-    //https://codereview.stackexchange.com/questions/127091/java-connect-four-four-in-a-row-detection-algorithms
-
 }

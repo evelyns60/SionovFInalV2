@@ -118,7 +118,7 @@ public class GUI extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        Object source = e.getSource();     //include if statement for instance of JButton if you use other actionEvents
+        Object source = e.getSource();
         JButton clickedButton = (JButton) source;
         String buttonText = clickedButton.getText();
         if (source instanceof Slot) {
@@ -126,18 +126,16 @@ public class GUI extends JFrame implements ActionListener {
                 ((Slot) source).setPlayerOnSlot(currentPlayer);
                 if (currentPlayer.getName().equals("Player 1")) {
                     ((Slot) source).setBackground(Color.red);
-                    ((Slot) source).setText("red");
                     currentPlayer = player2;
                     displayCurrentPlayer.setText("Player 2's Turn!");
                     displayCurrentPlayer.setForeground(Color.blue);
                 } else {
                     ((Slot) source).setBackground(Color.blue);
-                    ((Slot) source).setText("blue");
                     currentPlayer = player1;
                     displayCurrentPlayer.setText("Player 1's Turn!");
                     displayCurrentPlayer.setForeground(Color.red);
                 }
-                if (grid.playerHasWon(player1) || grid.playerHasWon(player2)) { //debug tmw: returns true when theres five pieces in a row regardless of their color
+                if (grid.playerHasWon(player1) || grid.playerHasWon(player2)) {
                     if (grid.playerHasWon(player1)) {
                         player1.addWin();
                         displayWins();
@@ -153,7 +151,7 @@ public class GUI extends JFrame implements ActionListener {
                     grid.disableGrid();
                     temperNewGameButton();
                 }
-                if (grid.isGridFilled()) { //restarts game if the board is filled; no points rewarded (NOTE: make bottom panel display text about this)
+                if (grid.isGridFilled()) {
                     grid.disableGrid();
                     displayCurrentPlayer.setText("Board is full, game ends in a tie.");
                     displayCurrentPlayer.setForeground(Color.magenta);

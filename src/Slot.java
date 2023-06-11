@@ -5,14 +5,6 @@ public class Slot extends JButton{
     private int col;
     private Player playerOnSlot;
 
-    /*
-    public Slot(Player currentPlayer, int row, int col) {
-        this.playerOnSlot = currentPlayer;
-        this.row = row;
-        this.col = col;
-    }
-    */
-
     public Slot(int row, int col) {
         this.row = row;
         this.col = col;
