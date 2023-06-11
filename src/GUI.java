@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class GUI extends JFrame implements ActionListener, ItemListener {
+public class GUI extends JFrame implements ActionListener {
     private JPanel mainPanel;
     private JPanel titlePanel;
     private JPanel gamePanel;
@@ -15,6 +15,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
     private Player currentPlayer;
     private Player playerTurn;
     private JLabel displayCurrentPlayer;
+    private JButton newGameButton;
     private JLabel redPieceArea;
     private JLabel bluePieceArea;
 
@@ -40,7 +41,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         JLabel gameTitle = new JLabel("Welcome to Connect 5!", SwingConstants.CENTER); //title
         gameTitle.setFont(new Font("Monospace", Font.BOLD, 75));
 
-        JLabel gameDescription = new JLabel("<html>Be the first player to form a horizontal, vertical, or diagonal line of five with your tokens. Have fun!</html>", SwingConstants.CENTER); //game description
+        JLabel gameDescription = new JLabel("<html>Be the first player to form a horizontal, vertical, or diagonal line of five with your tokens. Get 10 wins to win. Have fun!</html>", SwingConstants.CENTER); //game description
         gameDescription.setFont(new Font("Monospace", Font.ITALIC, 30));
         gameDescription.setBorder(BorderFactory.createEmptyBorder(40, 15, 15, 15));
 
@@ -83,8 +84,14 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         displayCurrentPlayer = new JLabel("Player 1's Turn!");
         displayCurrentPlayer.setFont(new Font("Serif", Font.BOLD, 30));
         displayCurrentPlayer.setForeground(Color.RED);
+        newGameButton = new JButton("New Game");
+        newGameButton.setBackground(Color.BLACK);
+        newGameButton.setSize(1, 1);
+        newGameButton.setEnabled(false);
+        newGameButton.setVisible(false);
 
         bottomPanel.add(redPieceArea);
+        bottomPanel.add(newGameButton);
         bottomPanel.add(bluePieceArea);
         bottomPanel.add(displayCurrentPlayer);
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(40, 15, 15, 15));
@@ -107,6 +114,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
 
     public void setUpListeners() {
         startButton.addActionListener(this);
+        newGameButton.addActionListener(this);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -118,12 +126,14 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
                 ((Slot) source).setPlayerOnSlot(currentPlayer);
                 if (currentPlayer.getName().equals("Player 1")) {
                     ((Slot) source).setBackground(Color.red);
-                    currentPlayer.setName("Player 2");
+                    ((Slot) source).setText("red");
+                    currentPlayer = player2;
                     displayCurrentPlayer.setText("Player 2's Turn!");
                     displayCurrentPlayer.setForeground(Color.blue);
                 } else {
                     ((Slot) source).setBackground(Color.blue);
-                    currentPlayer.setName("Player 1");
+                    ((Slot) source).setText("blue");
+                    currentPlayer = player1;
                     displayCurrentPlayer.setText("Player 1's Turn!");
                     displayCurrentPlayer.setForeground(Color.red);
                 }
@@ -131,27 +141,61 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
                     if (grid.playerHasWon(player1)) {
                         player1.addWin();
                         displayWins();
+                        displayCurrentPlayer.setText("Player 1 Wins!");
+                        displayCurrentPlayer.setForeground(Color.MAGENTA);
                     } else if (grid.playerHasWon(player2)) {
                         player2.addWin();
                         displayWins();
+                        displayCurrentPlayer.setText("Player 2 Wins!");
+                        displayCurrentPlayer.setForeground(Color.MAGENTA);
                     }
-/*
-                    grid.clearBoard();
-*/
+
+                    grid.disableGrid();
+                    temperNewGameButton();
                 }
                 if (grid.isGridFilled()) { //restarts game if the board is filled; no points rewarded (NOTE: make bottom panel display text about this)
-                    grid.clearBoard();
+                    grid.disableGrid();
+                    displayCurrentPlayer.setText("Board is full, game ends in a tie.");
+                    displayCurrentPlayer.setForeground(Color.magenta);
+                    temperNewGameButton();
+                }
+
+                if (player1.getNumWins() == 10 || player2.getNumWins() == 10) {
+                    gamePanel.setVisible(false);
+                    temperNewGameButton();
+                    displayCurrentPlayer.setForeground(Color.magenta);
+                    displayCurrentPlayer.setFont(new Font("Serif", Font.PLAIN, 60));
+                    if (player1.getNumWins() == 10) {
+                        displayCurrentPlayer.setText("PLAYER 1 WINS!");
+                    } else {
+                        displayCurrentPlayer.setText("PLAYER 2 WINS!");
+                    }
                 }
             }
-        } else {
-            if (buttonText.equals("Start")) {
-                startGame();
+        } else if (buttonText.equals("Start")) {
+            startGame();
+        } else if (buttonText.equals("New Game")) {
+            grid.enableGrid();
+            temperNewGameButton();
+            if (currentPlayer.getName().equals("Player 1")) {
+                displayCurrentPlayer.setText("Player 1's Turn!");
+                displayCurrentPlayer.setForeground(Color.red);
+            } else {
+                displayCurrentPlayer.setText("Player 2's Turn!");
+                displayCurrentPlayer.setForeground(Color.blue);
             }
         }
     }
 
-    public void itemStateChanged(ItemEvent e) {
-
+    public void temperNewGameButton() {
+        if (newGameButton.isVisible()) {
+            grid.clearBoard();
+            newGameButton.setVisible(false);
+            newGameButton.setEnabled(false);
+        } else {
+            newGameButton.setVisible(true);
+            newGameButton.setEnabled(true);
+        }
     }
 
     private void displayWins() {

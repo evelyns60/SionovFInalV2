@@ -55,6 +55,7 @@ public class Grid {
             for (int j = 0; j < matrix[0].length; j++) {
                 matrix[i][j].setPlayerOnSlot(null);
                 matrix[i][j].setBackground(Color.yellow);
+                matrix[i][j].setText("");
             }
         }
     }
@@ -116,6 +117,22 @@ public class Grid {
         }
         reversePlayerSet();
         return false;
+    }
+
+    public void disableGrid() {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                matrix[i][j].setEnabled(false);
+            }
+        }
+    }
+
+    public void enableGrid() {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                matrix[i][j].setEnabled(true);
+            }
+        }
     }
 
     private void setPlayersTemporarily() { //used to avoid null error
