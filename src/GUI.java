@@ -85,7 +85,7 @@ public class GUI extends JFrame implements ActionListener {
         displayCurrentPlayer.setFont(new Font("Serif", Font.BOLD, 30));
         displayCurrentPlayer.setForeground(Color.RED);
         newGameButton = new JButton("New Game");
-        newGameButton.setBackground(Color.BLACK);
+        newGameButton.setBackground(Color.WHITE);
         newGameButton.setSize(1, 1);
         newGameButton.setEnabled(false);
         newGameButton.setVisible(false);
